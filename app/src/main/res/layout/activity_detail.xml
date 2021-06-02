@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".ui.DetailActivity">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
+        android:paddingHorizontal="30dp"
+        android:paddingTop="100dp"
+        android:paddingBottom="30dp"
+        android:background="@drawable/shape_header">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:theme="@style/addressStyle"
+            android:textStyle="italic"
+            android:text="@string/date"
+            android:textColor="@color/white"
+            android:id="@+id/txt_date"/>
+
+        <TextView
+            android:layout_below="@id/txt_date"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_name"
+            android:text="@string/name"
+            android:theme="@style/nameStyle"/>
+
+        <TextView
+            android:layout_below="@+id/txt_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_phone"
+            android:text="@string/phone"
+            android:theme="@style/emailStyle"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_address"
+            android:text="@string/address"
+            android:layout_below="@+id/txt_phone"
+            android:theme="@style/addressStyle"
+            android:textColor="@color/white"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/txt_info"
+            android:layout_alignParentBottom="true"
+            android:text="@string/info"
+            android:textStyle="bold|italic"
+            android:theme="@style/infoStyle"
+            android:layout_alignParentEnd="true"
+            android:textColor="@color/white"/>
+            
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:gravity="center"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:id="@+id/image_qr"
+            android:layout_width="250dp"
+            android:layout_height="250dp"
+            android:src="@drawable/ic_launcher_background" />
+    
+    </RelativeLayout>
+
+</LinearLayout>

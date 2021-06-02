@@ -1,0 +1,23 @@
+<resources>
+    <string name="app_name">Wasteless</string>
+    <string name="login">Login</string>
+    <string name="login_error">Google Sign in Error</string>
+    <string name="login_stakeholder">Logged in as Stakeholder</string>
+    <string name="login_user">Logged in as User</string>
+    <string name="login_first">Please Login</string>
+    <string name="register">Please Register</string>
+    <string name="name">Name</string>
+    <string name="address">Address</string>
+    <string name="phone">Phone</string>
+    <string name="role">role</string>
+    <string name="user">User</string>
+    <string name="stakeholder">Stakeholder</string>
+    <string name="create">Create</string>
+    <string name="register_activity">Register</string>
+    <string name="create_success">Register Success</string>
+    <string name="required">Please Insert all data</string>
+    <string name="title">title</string>
+    <string name="date">date</string>
+    <string name="Email">email</string>
+    <string name="info">info</string>
+</resources>
