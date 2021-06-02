@@ -36,10 +36,10 @@ class OrderAdapter(private var listOrderModel: ArrayList<OrderModel>, private va
     override fun onBindViewHolder(holder: OrderHolder, position: Int) {
         val item = listOrderModel[position]
 
-        if (role == Helper.USER){
+        if (role == Helper.STAKEHOLDER){
             holder.txtTitle.text = item.userName
             holder.txtAddress.text = item.userAddress
-        }else if(role == Helper.STAKEHOLDER){
+        }else if(role == Helper.USER){
             holder.txtTitle.text = item.stakeholderName
             holder.txtAddress.text = item.stakeholderAddress
         }

@@ -4,6 +4,10 @@ import android.content.ContentValues.TAG
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
@@ -14,6 +18,7 @@ import com.example.wasteless.R
 import com.example.wasteless.adapter.OrderAdapter
 import com.example.wasteless.model.OrderModel
 import com.example.wasteless.ui.DetailActivity
+import com.example.wasteless.ui.LoginActivity
 import com.example.wasteless.utils.Helper
 import com.example.wasteless.viewmodel.UserViewModel
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -37,6 +42,8 @@ class UserActivity : AppCompatActivity() {
     private lateinit var btnAdd: FloatingActionButton
     private lateinit var role: String
     private lateinit var orderAdapter: OrderAdapter
+    private lateinit var progressBar: ProgressBar
+    private lateinit var progressView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,6 +53,8 @@ class UserActivity : AppCompatActivity() {
 
         mAuth = Firebase.auth
 
+        progressBar = findViewById(R.id.progress)
+        progressView = findViewById(R.id.view_progress)
         rvOrder = findViewById(R.id.rv_order)
         txtName = findViewById(R.id.txt_name)
         txtEmail = findViewById(R.id.txt_email)
@@ -94,7 +103,7 @@ class UserActivity : AppCompatActivity() {
                 goDetail.putExtra(Helper.ID, data.id)
                 goDetail.putExtra(Helper.ROLE, role)
                 goDetail.putExtra(Helper.DATE, Helper.dateToString(data.date))
-                goDetail.putExtra(Helper.UID, data.id)
+                goDetail.putExtra(Helper.UID, data.stakeholderUid)
                 goDetail.putExtra(Helper.NAME, data.stakeholderName)
                 goDetail.putExtra(Helper.PHONE, data.stakeholderPhone)
                 goDetail.putExtra(Helper.ADDRESS, data.stakeholderAddress)
@@ -106,11 +115,35 @@ class UserActivity : AppCompatActivity() {
 
     override fun onResume() {
         super.onResume()
+        progressBar.visibility = View.VISIBLE
+        progressView.visibility = View.VISIBLE
         GlobalScope.launch(Dispatchers.IO){
             userViewModel.setOrderList(mAuth.currentUser)
             withContext(Dispatchers.Main){
+                progressBar.visibility = View.INVISIBLE
+                progressView.visibility = View.INVISIBLE
                 showList(userViewModel.getOrderList())
             }
+        }
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_main, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.btn_logout -> {
+                mAuth.signOut()
+                val goLogin = Intent(this, LoginActivity::class.java)
+                startActivity(goLogin)
+                finish()
+                true
+            }
+            else -> true
         }
     }
 }

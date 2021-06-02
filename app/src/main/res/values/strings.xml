@@ -20,4 +20,7 @@
     <string name="date">date</string>
     <string name="Email">email</string>
     <string name="info">info</string>
+    <string name="cam_permission">Need Camera Permission</string>
+    <string name="logout">logout</string>
+    <string name="delete">delete</string>
 </resources>

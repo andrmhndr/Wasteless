@@ -2,7 +2,9 @@ package com.example.wasteless.ui
 
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
@@ -33,12 +35,17 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var googleSignInClient: GoogleSignInClient
 
     private lateinit var btnLogin: Button
+    private lateinit var progressBar: ProgressBar
+    private lateinit var progressView: View
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_login)
 
         mAuth = Firebase.auth
+
+        progressBar = findViewById(R.id.progress)
+        progressView = findViewById(R.id.view_progress)
 
         val gso = GoogleSignInOptions
             .Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -52,7 +59,11 @@ class LoginActivity : AppCompatActivity() {
 
         loginViewModel = ViewModelProvider(this).get(LoginViewModel::class.java)
 
-        btnLogin.setOnClickListener { signIn() }
+        btnLogin.setOnClickListener {
+            progressBar.visibility = View.VISIBLE
+            progressView.visibility = View.VISIBLE
+            signIn()
+        }
     }
 
     private fun signIn() {
@@ -124,8 +135,11 @@ class LoginActivity : AppCompatActivity() {
             loginViewModel.check(mAuth.currentUser).observe(this, {role ->
                 updateUI(role)
             })
-        } else
+        } else{
             updateUI(null)
+            progressBar.visibility = View.INVISIBLE
+            progressView.visibility = View.INVISIBLE
+        }
     }
 
 }

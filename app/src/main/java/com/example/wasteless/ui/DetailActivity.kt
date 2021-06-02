@@ -2,13 +2,22 @@ package com.example.wasteless.ui
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
+import androidmads.library.qrgenearator.QRGEncoder
 import androidx.lifecycle.ViewModelProvider
 import com.example.wasteless.R
 import com.example.wasteless.utils.Helper
 import com.example.wasteless.viewmodel.DetailViewModel
+import com.google.zxing.WriterException
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class DetailActivity : AppCompatActivity() {
 
@@ -51,11 +60,37 @@ class DetailActivity : AppCompatActivity() {
         txtAddress.text = detailViewModel.getDetailData().address
         txtInfo.text = detailViewModel.getDetailData().info
 
-        if (detailViewModel.getDetailData().role == Helper.STAKEHOLDER){
+        if (detailViewModel.getDetailData().role == Helper.STAKEHOLDER || detailViewModel.getDetailData().info != Helper.PROCESS){
             imageQR.visibility = View.INVISIBLE
         } else {
-
+            try {
+                imageQR.setImageBitmap(detailViewModel.getQRCode())
+            } catch (e: WriterException){
+                e.printStackTrace()
+            }
         }
-
     }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu_detail, menu)
+
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when(item.itemId){
+            R.id.btn_delete -> {
+                GlobalScope.launch(Dispatchers.IO){
+                    detailViewModel.deleteOrder()
+                    withContext(Dispatchers.Main){
+                        finish()
+                    }
+                }
+                true
+            }
+            else -> true
+        }
+    }
+
 }

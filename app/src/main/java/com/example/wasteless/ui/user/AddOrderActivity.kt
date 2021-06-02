@@ -29,6 +29,7 @@ class AddOrderActivity : AppCompatActivity() {
     private lateinit var addOrderViewModel: AddOrderViewModel
     private lateinit var rvUser: RecyclerView
     private lateinit var progressBar: ProgressBar
+    private lateinit var viewProgress: View
 
     private lateinit var mAuth: FirebaseAuth
 
@@ -41,7 +42,7 @@ class AddOrderActivity : AppCompatActivity() {
         addOrderViewModel = ViewModelProvider(this).get(AddOrderViewModel::class.java)
         rvUser = findViewById(R.id.rv_user)
         progressBar = findViewById(R.id.progress)
-
+        viewProgress = findViewById(R.id.view_progress)
 
         rvUser.setHasFixedSize(true)
         rvUser.layoutManager = LinearLayoutManager(this)
@@ -56,6 +57,7 @@ class AddOrderActivity : AppCompatActivity() {
             withContext(Dispatchers.Main){
                 showList(addOrderViewModel.getUserList())
                 progressBar.visibility = View.INVISIBLE
+                viewProgress.visibility = View.INVISIBLE
             }
         }
     }
