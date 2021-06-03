@@ -8,6 +8,7 @@ import com.example.wasteless.model.UserModel
 import com.example.wasteless.utils.Helper
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.firestore.FirebaseFirestore
+import com.google.firebase.firestore.Query
 import kotlinx.coroutines.tasks.await
 
 class UserViewModel: ViewModel() {
