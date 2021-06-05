@@ -42,21 +42,23 @@ class UserViewModel: ViewModel() {
     suspend fun setOrderList(currentUser: FirebaseUser?){
         orderModelList = arrayListOf()
         currentUser?.uid?.let {
-            db.collection(Helper.ORDER).whereEqualTo(Helper.USERUID, currentUser.uid).get().addOnSuccessListener{ document ->
+            db.collection(Helper.ORDER).orderBy(Helper.DATE, Query.Direction.DESCENDING).get().addOnSuccessListener{ document ->
                 document?.forEach { data ->
-                    val order = OrderModel(
-                        data.id,
-                        data.getDate(Helper.DATE),
-                        data.getString(Helper.USERUID),
-                        data.getString(Helper.USERNAME),
-                        data.getString(Helper.USERPHONE),
-                        data.getString(Helper.USERADDRESS),
-                        data.getString(Helper.STAKEHOLDERUID),
-                        data.getString(Helper.STAKEHOLDERNAME),
-                        data.getString(Helper.STAKEHOLDERPHONE),
-                        data.getString(Helper.STAKEHOLDERADDRESS),
-                        data.getString(Helper.INFO))
-                    orderModelList.add(order)
+                    if (data.getString(Helper.USERUID) == currentUser.uid){
+                        val order = OrderModel(
+                            data.id,
+                            data.getDate(Helper.DATE),
+                            data.getString(Helper.USERUID),
+                            data.getString(Helper.USERNAME),
+                            data.getString(Helper.USERPHONE),
+                            data.getString(Helper.USERADDRESS),
+                            data.getString(Helper.STAKEHOLDERUID),
+                            data.getString(Helper.STAKEHOLDERNAME),
+                            data.getString(Helper.STAKEHOLDERPHONE),
+                            data.getString(Helper.STAKEHOLDERADDRESS),
+                            data.getString(Helper.INFO))
+                        orderModelList.add(order)
+                    }
                 }
             }.await()
         }
